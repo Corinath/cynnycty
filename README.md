@@ -38,10 +38,40 @@ A modern social media platform built with Rust, SvelteKit, and ArcadeDB.
 ### Prerequisites
 - Rust (1.88+)
 - Node.js (20+)
-- ArcadeDB (running locally or remote instance)
-- Clerk account for authentication
+- Docker & Docker Compose (recommended for easy setup)
+- OR ArcadeDB installed manually (if not using Docker)
+- Clerk account for authentication (optional for initial setup)
 
-### ArcadeDB Setup
+### Quick Start with Docker (Recommended)
+
+The easiest way to get started is using Docker Compose:
+
+```bash
+# Start ArcadeDB in a Docker container
+docker-compose up -d
+
+# Check that ArcadeDB is running
+docker ps
+
+# View ArcadeDB logs
+docker-compose logs -f arcadedb
+```
+
+ArcadeDB will be available at:
+- HTTP API: `http://localhost:2480`
+- Web Console: `http://localhost:2480` (login with `root` / `cynnycty2024`)
+- Binary Protocol: `localhost:2424`
+
+The database `cynnycty` will be automatically created on first startup.
+
+To stop the services:
+```bash
+docker-compose down
+```
+
+### Manual ArcadeDB Setup (Alternative)
+
+If you prefer to run ArcadeDB without Docker:
 
 1. Download and install ArcadeDB from https://arcadedb.com
 2. Start ArcadeDB server:

@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  arcadedb:
+    image: arcadedata/arcadedb:latest
+    container_name: cynnycty-arcadedb
+    restart: unless-stopped
+    ports:
+      - "2480:2480"  # HTTP API and web console
+      - "2424:2424"  # Binary protocol
+    environment:
+      # Set root password via Java options
+      JAVA_OPTS: >-
+        -Darcadedb.server.rootPassword=${ARCADE_DB_PASSWORD:-cynnycty2024}
+        -Darcadedb.server.defaultDatabases=cynnycty[root]{create}
+    volumes:
+      - arcadedb_data:/home/arcadedb/databases
+      - arcadedb_config:/home/arcadedb/config
+    networks:
+      - cynnycty-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:2480/api/v1/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  cynnycty-network:
+    driver: bridge
+
+volumes:
+  arcadedb_data:
+    driver: local
+  arcadedb_config:
+    driver: local
