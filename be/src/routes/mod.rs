@@ -3,3 +3,4 @@
 
 pub mod health;
 pub mod database;
+pub mod profiles;
