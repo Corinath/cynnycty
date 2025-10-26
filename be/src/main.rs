@@ -11,6 +11,7 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use routes::health::health_check;
 use routes::database::database_health_check;
 use db::connection::init_database;
+use db::schema::{init_schema, is_schema_initialized};
 
 #[tokio::main]
 async fn main() {
@@ -39,6 +40,28 @@ async fn main() {
             panic!("Database connection required for startup");
         }
     };
+
+    // Initialize database schema if needed
+    match is_schema_initialized(&db).await {
+        Ok(initialized) => {
+            if !initialized {
+                tracing::info!("Schema not initialized, running schema setup...");
+                if let Err(e) = init_schema(&db).await {
+                    tracing::error!("Failed to initialize schema: {}", e);
+                    panic!("Schema initialization failed");
+                }
+            } else {
+                tracing::info!("Database schema already initialized");
+            }
+        }
+        Err(e) => {
+            tracing::warn!("Could not check schema status: {}, attempting initialization...", e);
+            if let Err(e) = init_schema(&db).await {
+                tracing::error!("Failed to initialize schema: {}", e);
+                panic!("Schema initialization failed");
+            }
+        }
+    }
 
     // Build our application with routes
     let app = Router::new()
