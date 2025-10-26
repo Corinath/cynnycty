@@ -38,8 +38,18 @@ A modern social media platform built with Rust, SvelteKit, and ArcadeDB.
 ### Prerequisites
 - Rust (1.88+)
 - Node.js (20+)
-- ArcadeDB
+- ArcadeDB (running locally or remote instance)
 - Clerk account for authentication
+
+### ArcadeDB Setup
+
+1. Download and install ArcadeDB from https://arcadedb.com
+2. Start ArcadeDB server:
+   ```bash
+   bin/server.sh
+   ```
+3. Create a database named `cynnycty` (or configure your preferred name in .env)
+4. Default connection: `http://localhost:2480`
 
 ### Backend Setup
 
@@ -53,7 +63,14 @@ A modern social media platform built with Rust, SvelteKit, and ArcadeDB.
    cp .env.example .env
    ```
 
-3. Update `.env` with your configuration
+3. Update `.env` with your ArcadeDB configuration:
+   ```env
+   ARCADE_DB_HOST=localhost
+   ARCADE_DB_PORT=2480
+   ARCADE_DB_NAME=cynnycty
+   ARCADE_DB_USER=root
+   ARCADE_DB_PASSWORD=your_password
+   ```
 
 4. Build and run the backend:
    ```bash
@@ -86,6 +103,7 @@ The frontend will start on `http://localhost:5173`
 ### Health Check
 - `GET /health` - Basic health check
 - `GET /api/v1/health` - API health check
+- `GET /api/v1/db/health` - Database health check
 
 ## Development
 
@@ -93,6 +111,8 @@ The frontend will start on `http://localhost:5173`
 - The backend uses Axum for routing and handling HTTP requests
 - CORS is configured to allow frontend development
 - Logging is configured via tracing
+- ArcadeDB integration using `arcadedb-rs` client library
+- Database connection pooling with async/await support
 
 ### Frontend
 - Built with SvelteKit and TypeScript
