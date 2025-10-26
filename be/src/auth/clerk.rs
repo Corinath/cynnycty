@@ -96,21 +96,33 @@ impl ClerkJwks {
         token: &str,
     ) -> Result<ClerkClaims, Box<dyn std::error::Error>> {
         // Decode the header to get the key ID
-        let header = decode_header(token)?;
+        let header = decode_header(token).map_err(|e| {
+            tracing::error!("Failed to decode JWT header: {}", e);
+            e
+        })?;
+
         let kid = header.kid.ok_or("Token missing 'kid' in header")?;
 
         // Get the corresponding decoding key
         let decoding_key = self
             .keys
             .get(&kid)
-            .ok_or("Unknown key ID in token header")?;
+            .ok_or_else(|| {
+                tracing::error!("Unknown key ID '{}' in token header. Available keys: {:?}", kid, self.keys.keys().collect::<Vec<_>>());
+                "Unknown key ID in token header"
+            })?;
 
         // Set up validation
+        // Clerk tokens don't use audience validation in the standard way
         let mut validation = Validation::new(Algorithm::RS256);
-        validation.set_audience(&[&self.publishable_key]);
+        validation.validate_aud = false; // Clerk doesn't use standard aud claim
+        validation.validate_exp = true;
 
         // Decode and verify the token
-        let token_data = decode::<ClerkClaims>(token, decoding_key, &validation)?;
+        let token_data = decode::<ClerkClaims>(token, decoding_key, &validation).map_err(|e| {
+            tracing::error!("JWT decode failed: {}", e);
+            e
+        })?;
 
         Ok(token_data.claims)
     }
