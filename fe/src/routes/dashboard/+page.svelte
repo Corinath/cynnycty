@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { user, session } from 'svelte-clerk';
 	import { onMount } from 'svelte';
+	import { colors } from '$lib/colors';
 
 	let backendProfile: any = $state(null);
 	let loading = $state(true);
