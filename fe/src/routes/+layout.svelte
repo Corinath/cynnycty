@@ -29,10 +29,10 @@
 		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	">
 		<h1 style="margin: 0; font-size: 1.5rem; color: white;">Cynnycty</h1>
-		<nav style="display: flex; gap: 1rem; align-items: center;">
+		<nav style="display: flex; gap: 0.75rem; align-items: center;">
 			<SignedOut>
-				<a href="/sign-in" style="text-decoration: none; color: white; font-weight: 500; margin-right: 0.5rem;">Sign In</a>
-				<Button variant="primary" href="/sign-up" style="padding: 0.5rem 1rem; font-size: 1rem;">Sign Up</Button>
+				<Button variant="primary" size="small" href="/sign-up">Sign Up</Button>
+				<Button variant="secondary" size="small" href="/sign-in">Sign In</Button>
 			</SignedOut>
 			<SignedIn>
 				<a href="/dashboard" style="text-decoration: none; color: white; margin-right: 1rem;">Dashboard</a>

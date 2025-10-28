@@ -3,6 +3,7 @@
 
 	interface Props {
 		variant?: 'primary' | 'secondary' | 'tertiary';
+		size?: 'default' | 'small';
 		href?: string;
 		type?: 'button' | 'submit';
 		onclick?: () => void;
@@ -11,6 +12,7 @@
 
 	let {
 		variant = 'primary',
+		size = 'default',
 		href,
 		type = 'button',
 		onclick,
@@ -18,19 +20,29 @@
 		...restProps
 	}: Props = $props();
 
-	// Define styles for each variant
+	// Size-specific styles
+	const sizeStyles = {
+		default: `
+			padding: 1rem 2.5rem;
+			font-size: 1.125rem;
+		`,
+		small: `
+			padding: 0.5rem 1.25rem;
+			font-size: 0.9rem;
+		`
+	};
+
+	// Base styles shared by all buttons
 	const baseStyles = `
-		padding: 1rem 2.5rem;
 		border-radius: 8px;
 		text-decoration: none;
-		font-size: 1.125rem;
 		display: inline-block;
 		cursor: pointer;
-		border: none;
 		transition: opacity 0.2s, border-color 0.2s;
 		font-family: inherit;
 	`;
 
+	// Variant-specific styles
 	const variantStyles = {
 		primary: `
 			background: ${colors.primaryCyan};
@@ -52,7 +64,7 @@
 		`
 	};
 
-	const combinedStyles = baseStyles + variantStyles[variant];
+	const combinedStyles = baseStyles + sizeStyles[size] + variantStyles[variant];
 </script>
 
 {#if href}
