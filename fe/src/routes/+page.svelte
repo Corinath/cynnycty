@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { colors } from '$lib/colors';
+	import { Button } from '$lib/components/common';
 </script>
 
 <div style="
@@ -38,34 +39,8 @@
 			justify-content: center;
 			flex-wrap: wrap;
 		">
-			<a href="/sign-up" style="
-				background: {colors.primaryCyan};
-				color: white;
-				padding: 1rem 2.5rem;
-				border-radius: 8px;
-				text-decoration: none;
-				font-weight: 600;
-				font-size: 1.125rem;
-				transition: opacity 0.2s;
-				display: inline-block;
-			">
-				Sign Up
-			</a>
-
-			<a href="/sign-in" style="
-				background: transparent;
-				color: white;
-				padding: 1rem 2.5rem;
-				border-radius: 8px;
-				text-decoration: none;
-				font-weight: 500;
-				font-size: 1.125rem;
-				border: 2px solid rgba(255, 255, 255, 0.3);
-				transition: border-color 0.2s;
-				display: inline-block;
-			">
-				Sign In
-			</a>
+			<Button variant="primary" href="/sign-up">Sign Up</Button>
+			<Button variant="secondary" href="/sign-in">Sign In</Button>
 		</div>
 	</div>
 </div>

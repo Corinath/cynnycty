@@ -1,7 +1,7 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
 	import { ClerkProvider, SignedIn, SignedOut, UserButton } from 'svelte-clerk';
-	import { colors } from '$lib/colors';
+	import { colors, Button } from '$lib';
 
 	let { children } = $props();
 </script>
@@ -31,8 +31,8 @@
 		<h1 style="margin: 0; font-size: 1.5rem; color: white;">Cynnycty</h1>
 		<nav style="display: flex; gap: 1rem; align-items: center;">
 			<SignedOut>
-				<a href="/sign-in" style="text-decoration: none; color: white; font-weight: 500;">Sign In</a>
-				<a href="/sign-up" style="background: {colors.primaryCyan}; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 500;">Sign Up</a>
+				<a href="/sign-in" style="text-decoration: none; color: white; font-weight: 500; margin-right: 0.5rem;">Sign In</a>
+				<Button variant="primary" href="/sign-up" style="padding: 0.5rem 1rem; font-size: 1rem;">Sign Up</Button>
 			</SignedOut>
 			<SignedIn>
 				<a href="/dashboard" style="text-decoration: none; color: white; margin-right: 1rem;">Dashboard</a>
